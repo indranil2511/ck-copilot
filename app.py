@@ -36,6 +36,10 @@ def run():
             width: 100%;
             height: auto;
         }
+        .st-emotion-cache-eqffof p{
+            color: #969696;
+            padding-top:50px;
+        }
         </style>
         """,
         unsafe_allow_html=True,
@@ -48,6 +52,9 @@ def run():
         f'<img src="data:image/png;base64,{img_base64}" class="cover-glow">',
         unsafe_allow_html=True,
     )
+
+    # st.sidebar.markdown("# Sidebar Description")
+    st.sidebar.markdown("Introducing our Inventory Management Assistant, your reliable partner in efficiently managing your inventory. With intuitive English query capabilities, this assistant transforms complex database inquiries into clear and actionable insights. Whether you're tracking stock levels, locating specific items, or analyzing inventory trends, our assistant swiftly navigates the database to provide you with accurate and informative answers. Say goodbye to cumbersome inventory management tasks and hello to seamless data-driven decision-making with our Inventory Management Assistant leading the way.")
 
     st.markdown(
     """
