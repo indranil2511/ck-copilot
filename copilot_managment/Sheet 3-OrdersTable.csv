@@ -1,0 +1,17 @@
+Order_Id,Product_Id,Customer_Id,Product_Name,Status_Type,Shipping_Date,Delivery_Date,Status_Location,Delivery_Location
+1,7538-0200-0255,598561,Notebook,Shipped,9/2/2024,2024-09-12,Transit,"5th Floor, Wenceslau Braz"
+2,1798-2146-1749,241864,Sticky Notes,Out for Delivery,6/2/2024,2024-06-07,On the way,"PO Box 48791, Sunan"
+3,0243-4435-6832,728176,Mechanical Pencil,Shipped,5/2/2024,2024-05-22,Transit,"Suite 56,Jönköping"
+4,9613-1013-0927,37180,Highlighter,Shipped,12/2/2024,2024-12-10,Transit,"PO Box 70452, Nan"
+5,9001-6137-7734,592316,Paper Clips,Out for Delivery,11/2/2024,2024-11-08,Warehouse,"1st Floor,Río Segundo"
+6,8189-0359-9755,767632,Whiteboard Marker,Out for Delivery,6/2/2024,2024-06-12,Warehouse,"Apt 1244,Bang Kruai"
+7,6902-4655-0783,141164,Practice-kit,Shipped,11/2/2024,2024-11-12,Transit,"Room 871, Kisoro"
+8,8330-9622-7573,271747,Correction Tape,Shipped,4/2/2024,2024-05-02,Transit,"Suite 83,San Pablo"
+9,2509-5704-1685,226740,Stapler,Out for Delivery,7/2/2024,2024-09-03,On the way,"Suite 12,Camplong"
+10,4643-9914-9532,82594,Index Cards,Out for Delivery,2/2/2024,2024-04-04,On the way,"Apt 88,Liangshuihe"
+11,9362-5680-7737,394949,Notebook Dividers,Out for Delivery,11/2/2024,2024-02-11,On the way,"Room 1310,Kurba"
+12,2742-5936-3491,518157,Desk Organizer,Shipped,6/2/2024,2024-11-29,Transit,"Room 72,Kifrī"
+13,6625-3598-4287,141164,Staple Remover,Shipped,9/2/2024,2024-07-09,Transit,"Room 871, Kisoro"
+15,2001-6158-8095,447321,Notebook Cover,Out for Delivery,7/2/2024,2024-02-17,Warehouse,"Room 1310 , Peras Ruivas"
+16,8189-0359-9755,728176,Whiteboard Marker,Reached,2/2/2024,2024-02-12,Destination,Newtown Kolkata
+17,9362-5680-7737,728176,Notebook Dividers,Out for Delivery,4/3/2024,2024-03-21,On the way,"Delhi, Laxmi Nagar 12C"
