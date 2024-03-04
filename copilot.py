@@ -20,7 +20,8 @@ def get_sql_query(prompt):
 
 def get_prompt():
     # st.title('Data Extractor Copilot CK')
-    prompt = st.chat_input("Ask me...")
+    # prompt = st.chat_input("Ask me...")
+    prompt = st.text_area("What do you wanna know?")
     if prompt:
         try:
             sql_query = get_sql_query(QUERY.format(question=prompt))
