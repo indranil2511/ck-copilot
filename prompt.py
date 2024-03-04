@@ -88,5 +88,9 @@ WHERE
     lower(trim(o."Status_Type")) = 'shipped'
 
 don't write word query in the starting of actual query
+Replace the word delivered by reached in query
+When asked for total do the sum 
+
+
 {question}
 """
