@@ -87,10 +87,26 @@ INNER JOIN
 WHERE
     lower(trim(o."Status_Type")) = 'shipped'
 
-don't write word query in the starting of actual query
-Replace the word delivered by reached in query
-When asked for total do the sum 
+3.Don't write word query in the starting of actual query
+4.Replace the word delivered by reached in query
 
+5.For using SUM() function:
+- Check the data type of the column `o."Order_Id"` in the `Orders` table to ensure it contains numerical data.
+- If the column contains string data, consider converting it to a numerical data type using the appropriate type cast (e.g., `CAST(o."Order_Id" AS integer)`).
+- Update the query to use the `SUM()` function with the correct numerical data type. 
+
+6. While maximum count:
+return all results with the maximum count, including those with the same count as the maximum.
+
+7.When referring to the status of a product delivery, interpret "out of delivery" as "out for delivery" in the SQL query.
+
+8. provide is similar to give word. 
+example: 
+If a question is provide me details of customers
+or if provide the details of customers
+then query is same as give me the details of all customers
+
+9.Ensure the query does not include duplicate records and utilizes the 'DISTINCT' keyword to achieve this for all scenarios
 
 {question}
 """

@@ -5,8 +5,8 @@ from query_utils import *
 from prompt import *
 
 # Your OpenAI API key
-API_KEY = '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'
- 
+API_KEY = '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'
+
 llm = OpenAI(temperature=0, openai_api_key=API_KEY)
 
 def get_sql_query(prompt):
@@ -31,6 +31,7 @@ def get_prompt():
 
                 try:
                     output = execute_real_sql_query(sql_query)
+                    
                     if output is not None:
                         #   st.write("Query Results:")
                         st.dataframe(output)  # Display results as a DataFrame
