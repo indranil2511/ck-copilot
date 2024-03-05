@@ -5,7 +5,7 @@ from query_utils import *
 from prompt import *
 
 # Your OpenAI API key
-API_KEY = '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'
+API_KEY = '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'
  
 llm = OpenAI(temperature=0, openai_api_key=API_KEY)
 
