@@ -25,6 +25,7 @@ def process_with_llm(file_path):
     with open(file_path, "r") as f:
         combined_content = f.read()
 
+
     # Craft a comprehensive prompt
     llm_prompt = f"I have been given a question and a dataframe which is answer of the asked question: \n {combined_content} \n  Please provide a concise summary of the key insights or trends in the data in natural language."
 
