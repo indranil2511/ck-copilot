@@ -88,8 +88,9 @@ WHERE
     lower(trim(o."Status_Type")) = 'shipped'
 
 3.Don't write word query in the starting of actual query
-4.Replace the word delivered by reached in query
-
+4.Replace the word delivered by reached in sql query
+Ensure that the SQL query generated considers "delivered" as "reached" in the status type.
+out for delivery and reached are two different thing.
 5.For using SUM() function:
 - Check the data type of the column `o."Order_Id"` in the `Orders` table to ensure it contains numerical data.
 - If the column contains string data, consider converting it to a numerical data type using the appropriate type cast (e.g., `CAST(o."Order_Id" AS integer)`).
