@@ -5,9 +5,10 @@ from query_utils import *
 from prompt import *
 
 # Your OpenAI API key
-API_KEY = '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'
+API_KEY = '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'
  
 llm = OpenAI(temperature=0, openai_api_key=API_KEY)
+query_arr = []
 
 def get_sql_query(prompt):
     """
@@ -22,6 +23,13 @@ def get_prompt():
     # st.title('Data Extractor Copilot CK')
     # prompt = st.chat_input("Ask me...")
     prompt = st.text_area("What do you wanna know?")
+    query_arr.append(prompt)
+    for row in query_arr:
+        print(row)
+        st.sidebar.write(
+            f'<span class="chat-items">{row}</span>',
+            unsafe_allow_html=True,
+        )
     if prompt:
         try:
             sql_query = get_sql_query(QUERY.format(question=prompt))

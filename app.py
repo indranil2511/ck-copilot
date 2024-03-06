@@ -35,10 +35,23 @@ def run():
         .cover-glow {
             width: 100%;
             height: auto;
+            margin-bottom:50px;
         }
-        .st-emotion-cache-eqffof p{
+        .sidebar-text{
             color: #969696;
-            padding-top:50px;
+        }
+        .chat-items {
+            color: #969696;
+            line-height: 20px;
+        }
+        .stMarkdown1{
+            background: #e5e5e5;
+            padding: 8px 0px 8px 20px;
+            border-radius: 9px;
+        }
+        .e1nzilvr5 hr{
+            background-color: #d4d3d3;
+            margin: 1em 0px;
         }
         </style>
         """,
@@ -54,7 +67,17 @@ def run():
     )
 
     # st.sidebar.markdown("# Sidebar Description")
-    st.sidebar.markdown("Introducing our Inventory Management Assistant, your reliable partner in efficiently managing your inventory. With intuitive English query capabilities, this assistant transforms complex database inquiries into clear and actionable insights. Whether you're tracking stock levels, locating specific items, or analyzing inventory trends, our assistant swiftly navigates the database to provide you with accurate and informative answers. Say goodbye to cumbersome inventory management tasks and hello to seamless data-driven decision-making with our Inventory Management Assistant leading the way.")
+    st.sidebar.markdown(
+        f'<span class="sidebar-text"> Introducing our Inventory Management Assistant, your reliable partner in efficiently managing your inventory. With intuitive English query capabilities, this assistant transforms complex database inquiries into clear and actionable insights.</span>',
+        unsafe_allow_html=True,
+    )
+
+    st.sidebar.markdown("---")
+
+    st.sidebar.markdown(
+        f'<span class="sidebar-text">Today</span>',
+        unsafe_allow_html=True,
+    )
 
     st.markdown(
     """
