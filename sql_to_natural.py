@@ -6,7 +6,7 @@ import pandas as pd
 from copilot import *
 
 # Replace with your OpenAI API key
-api_key = "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"
+api_key = "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"
 llm = OpenAI(temperature=0, openai_api_key=api_key)
 
 def combine_prompt_data(prompt, data):
@@ -14,20 +14,23 @@ def combine_prompt_data(prompt, data):
 
     # Convert the DataFrame to a human-readable format (e.g., CSV)
     df_string = df.to_csv(index=False)
-
+    print(df_string)
     # Create a new file and write the combined content
-    with open("combined_prompt_data.txt", "w") as f:
-        f.write(f"**Prompt:** {prompt}\n\n")
-        f.write(df_string)
+    # with open("combined_prompt_data.txt", "w") as f:
+    #     f.write(f"**Prompt:** {prompt}\n\n")
+    #     f.write(df_string)
 
-def process_with_llm(file_path):
+    natural_prompt = "**Prompt:** {prompt}\n\n" + df_string
+    return natural_prompt
+
+def process_with_llm(natural_prompt):
     # Load the combined file content
-    with open(file_path, "r") as f:
-        combined_content = f.read()
+    # with open(file_path, "r") as f:
+    #     combined_content = f.read()
 
-
+    print(natural_prompt)
     # Craft a comprehensive prompt
-    llm_prompt = f"I have been given a question and a dataframe which is answer of the asked question: \n {combined_content} \n  Please provide a concise summary of the key insights or trends in the data in natural language."
+    llm_prompt = f"I have been given a question and a dataframe which is answer of the asked question: \n {natural_prompt} \n  Please provide a concise summary of the key insights or trends in the data in natural language."
 
     # st.write(combined_content)
     a=llm.generate([llm_prompt])

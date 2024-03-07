@@ -91,7 +91,9 @@ def run():
         unsafe_allow_html=True
     )
 
-    st.write("# Welcome to CK Copilot! 👋")
+    st.title("# Welcome to CK Copilot! 👋")
+
+    
 
     get_prompt()
     # st.chat_input("Ask me about Streamlit updates:")

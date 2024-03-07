@@ -23,7 +23,8 @@ def get_sql_query(prompt):
 def get_prompt():
     # st.title('Data Extractor Copilot CK')
     # prompt = st.chat_input("Ask me...")
-    prompt = st.text_area("What do you wanna know?")
+    
+    prompt = st.chat_input("What do you wanna know?")
     query_arr.append(prompt)
     for row in query_arr:
         print(row)
@@ -44,8 +45,8 @@ def get_prompt():
                     if output is not None:
                         #   st.write("Query Results:")
                         st.dataframe(output)  # Display results as a DataFrame
-                        combine_prompt_data(prompt, output)
-                        llm_output = process_with_llm("combined_prompt_data.txt")
+                        natural_prompt = combine_prompt_data(prompt, output)
+                        llm_output = process_with_llm(natural_prompt)
                         st.success(llm_output)
                     else:
                         st.info("The query did not return any results.")
