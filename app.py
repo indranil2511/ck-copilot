@@ -91,8 +91,16 @@ def run():
         unsafe_allow_html=True
     )
 
-    st.title("# Welcome to CK Copilot! 👋")
+    st.title("# Hi, I'm Elsa! 👋")
 
+    initial_bot_message = "Hello! How can I assist you?\n"
+
+    if "history" not in st.session_state:
+        st.session_state.history = []
+        st.session_state.history.append({"role": "assistant", "content": initial_bot_message})
+    if 'conversation_history' not in st.session_state:
+        st.session_state.conversation_history = []
+    
     
 
     get_prompt()

@@ -6,3 +6,4 @@ streamlit
 langchain-openai
 sqlalchemy
 psycopg2
+python-dotenv

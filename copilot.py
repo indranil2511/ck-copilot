@@ -5,13 +5,16 @@ from query_utils import *
 from prompt import *
 import pandas as pd
 from sql_to_natural import *
+import os
+from dotenv import load_dotenv
 
 # Your OpenAI API key
-API_KEY = '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'
+API_KEY = api_key = os.environ['API_KEY']
  
 llm = OpenAI(temperature=0, openai_api_key=API_KEY)
 query_arr = []
 
+load_dotenv()
 def get_sql_query(prompt):
     """
     Get SQL query from the language model based on the enhanced prompt, without connecting to the database.
@@ -32,22 +35,53 @@ def get_prompt():
             f'<span class="chat-items">{row}</span>',
             unsafe_allow_html=True,
         )
-    if prompt:
+    on_chat_submit(prompt)
+    print(st.session_state.history)
+    # Display chat history with custom avatars
+    for message in st.session_state.history[-20:]:
+        role = message["role"]
+        
+        # Set avatar based on role
+        if role == "assistant":
+            avatar_image = "images/avatar_assistant.png"
+        elif role == "user":
+            avatar_image = "images/avatar_user.png"
+        else:
+            avatar_image = None  # Default
+        
+        with st.chat_message(role, avatar=avatar_image):
+            st.write(message["content"])
+    
+
+
+def on_chat_submit(chat_input):
+    if chat_input:
         try:
-            sql_query = get_sql_query(QUERY.format(question=prompt))
+            st.session_state.conversation_history.append({"role": "user", "content": chat_input})
+            sql_query = get_sql_query(QUERY.format(question=chat_input))
             if sql_query:
-                st.success("Generated SQL query:")
-                st.code(sql_query, language="sql")
+                if os.environ['DEBUG'] == True:
+                    st.success("Generated SQL query:")
+                    st.code(sql_query, language="sql")
 
                 try:
                     output = execute_real_sql_query(sql_query)
                     
                     if output is not None:
                         #   st.write("Query Results:")
-                        st.dataframe(output)  # Display results as a DataFrame
-                        natural_prompt = combine_prompt_data(prompt, output)
+                        print(os.environ['DEBUG'])
+                        if os.environ['DEBUG'] == True:
+                            st.dataframe(output)  # Display results as a DataFrame
+                        natural_prompt = combine_prompt_data(chat_input, output)
                         llm_output = process_with_llm(natural_prompt)
-                        st.success(llm_output)
+                        # Append assistant's reply to the conversation history
+                        st.session_state.conversation_history.append({"role": "assistant", "content": llm_output})
+                        #st.chat_message(llm_output)
+
+                        # Update the Streamlit chat history
+                        if "history" in st.session_state:
+                            st.session_state.history.append({"role": "user", "content": chat_input})
+                            st.session_state.history.append({"role": "assistant", "content": llm_output})
                     else:
                         st.info("The query did not return any results.")
                 except Exception as e:
