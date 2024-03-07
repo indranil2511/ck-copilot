@@ -3,6 +3,8 @@ from langchain_openai import OpenAI
 from typing import Dict, Any 
 from query_utils import *
 from prompt import *
+import pandas as pd
+from sql_to_natural import *
 
 # Your OpenAI API key
 API_KEY = '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'
@@ -17,7 +19,6 @@ def get_sql_query(prompt):
     prompt_list = [prompt]
     generations = llm.generate(prompt_list)
     return generations.generations[0][0].text
-
 
 def get_prompt():
     # st.title('Data Extractor Copilot CK')
@@ -39,9 +40,13 @@ def get_prompt():
 
                 try:
                     output = execute_real_sql_query(sql_query)
+                    
                     if output is not None:
                         #   st.write("Query Results:")
                         st.dataframe(output)  # Display results as a DataFrame
+                        combine_prompt_data(prompt, output)
+                        llm_output = process_with_llm("combined_prompt_data.txt")
+                        st.success(llm_output)
                     else:
                         st.info("The query did not return any results.")
                 except Exception as e:
@@ -51,3 +56,4 @@ def get_prompt():
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
+
