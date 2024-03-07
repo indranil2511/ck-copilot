@@ -7,7 +7,7 @@ import pandas as pd
 from sql_to_natural import *
 
 # Your OpenAI API key
-API_KEY = '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'
+API_KEY = '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'
 
 llm = OpenAI(temperature=0, openai_api_key=API_KEY)
 
@@ -22,7 +22,8 @@ def get_sql_query(prompt):
 def get_prompt():
     # st.title('Data Extractor Copilot CK')
     # prompt = st.chat_input("Ask me...")
-    prompt = st.text_area("What do you wanna know?")
+    
+    prompt = st.chat_input("What do you wanna know?")
     if prompt:
         try:
             sql_query = get_sql_query(QUERY.format(question=prompt))
@@ -36,8 +37,8 @@ def get_prompt():
                     if output is not None:
                         #   st.write("Query Results:")
                         st.dataframe(output)  # Display results as a DataFrame
-                        combine_prompt_data(prompt, output)
-                        llm_output = process_with_llm("combined_prompt_data.txt")
+                        natural_prompt = combine_prompt_data(prompt, output)
+                        llm_output = process_with_llm(natural_prompt)
                         st.success(llm_output)
                     else:
                         st.info("The query did not return any results.")
