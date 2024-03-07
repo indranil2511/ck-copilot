@@ -2,44 +2,47 @@ QUERY = """
 Given a natural language question or statement related to the following tables and their columns, formulate a syntactically correct PostgreSQL query:
 There are three tables:
 - Customers 
-
 - Orders
 - Products
 Tables and Columns:
 
-Customers:
-    It contains the data of customers along with following details
-Customer_Id (Integer, primary key)
-First_Name (String)
-Last_Name (String)
-Date_Of_Birth (Date)
-Gender (String)
-Address (String)
-City (String)
-Postal_Code (String)
-Contact_Number (String)
-Email (String)
+Customers
+Customer_Id (Integer, PK): Unique identifier for each customer.
+First_Name (String): Customer's first name.
+Last_Name (String): Customer's last name.
+Date_Of_Birth (Date): Customer's date of birth.
+Gender (String): Customer's gender.
+Address (String): Customer's physical address.
+City (String): City in which the customer resides.
+Postal_Code (String): Customer's postal code or ZIP code.
+Contact_Number (String): Customer's primary phone number.
+Email (String, Unique): Customer's primary email address (unique across customers).
 
-Products:
-    It contains prooducts available along with its following details
-Product_Id (String, primary key)
-Product_Name (String)
-Product_Category (String)
-Price (Numeric)
-Product_Description (String)
+Products
+Product_Id (String, PK): Unique identifier for each product.
+Product_Name (String): Name of the product.
+Product_Category (String): Category to which the product belongs.
+Price (Numeric): Price of the product (decimal value).
+Product_Description (String): Detailed description of the product.
 
-Orders:
-    Orders table simply include whatever product is being ordered by customers and the status of orders along with following information
-Order_Id (String, primary key)
-Product_Id (String, foreign key references Products.Product_id)
-Customer_Id (Integer, foreign key references Customers.Customer_Id)
-Product_Name (String)
-Status_Type (String)
-Shipping_Date (Date)
-Delivery_Date (Date)
-Status_Location (String)
-Delivery_Location (String)
+Orders
+Order_Id (String, PK): Unique identifier for each order. It is not sales.
+Product_Id (String, FK): Product ordered (references Product_Id in Products table).
+Customer_Id (Integer, FK): Customer who placed the order (references Customer_Id in Customers table).
+Product_Name (String): Name of the product ordered (for reference within order context).
+Sales (Integer): Sales of the given order
+Status_Type (String): Current order status (e.g., "Reached", "Shipped" etc.).
+Shipping_Date (Date): Date order was shipped (null if not shipped).
+Delivery_Date (Date): Date order was or will be delivered (null if not applicable).
+Delivery_Location (String): Specific location where order was or will be delivered.
 
+You might need to join tables for getting different insights.
+
+For table Orders, 
+A.Status_Type has following unique values;
+    1. Shipped - Order has been just shipped.
+    2. Out For delivery - it is out for delivery
+    3. Reached - The order has been delivered.
 
 SQL Query Formatting Guide (with Enhanced WHERE Clause Handling)
 
@@ -87,27 +90,18 @@ INNER JOIN
 WHERE
     lower(trim(o."Status_Type")) = 'shipped'
 
-3.Don't write word query in the starting of actual query
-4.Replace the word delivered by reached in sql query
-Ensure that the SQL query generated considers "delivered" as "reached" in the status type.
-out for delivery and reached are two different thing.
-5.For using SUM() function:
-- Check the data type of the column `o."Order_Id"` in the `Orders` table to ensure it contains numerical data.
-- If the column contains string data, consider converting it to a numerical data type using the appropriate type cast (e.g., `CAST(o."Order_Id" AS integer)`).
-- Update the query to use the `SUM()` function with the correct numerical data type. 
+Dont write word 'query' in start of actual query.
 
 6. While maximum count:
 return all results with the maximum count, including those with the same count as the maximum.
 
-7.When referring to the status of a product delivery, interpret "out of delivery" as "out for delivery" in the SQL query.
+7.Ensure the query does not include duplicate records and utilizes the 'DISTINCT' keyword to achieve this for all scenarios
 
-8. provide is similar to give word. 
-example: 
-If a question is provide me details of customers
-or if provide the details of customers
-then query is same as give me the details of all customers
+8. While writing queries, ensure that you select columns from correct tables
 
-9.Ensure the query does not include duplicate records and utilizes the 'DISTINCT' keyword to achieve this for all scenarios
+9. when we write place order consider it with shipping date.
+
+10. If the question is :what are the top 5 products based on no of orders ? then not include status_Type reached
 
 {question}
 """

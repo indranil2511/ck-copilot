@@ -7,7 +7,7 @@ import pandas as pd
 from sql_to_natural import *
 
 # Your OpenAI API key
-API_KEY = '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'
+API_KEY = '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'
 
 llm = OpenAI(temperature=0, openai_api_key=API_KEY)
 
@@ -18,7 +18,6 @@ def get_sql_query(prompt):
     prompt_list = [prompt]
     generations = llm.generate(prompt_list)
     return generations.generations[0][0].text
-
 
 def get_prompt():
     # st.title('Data Extractor Copilot CK')

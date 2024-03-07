@@ -1,5 +1,8 @@
-**Prompt:** give me  customer names and their ages who ordered anything and having age in between 20years to 30 years as of now
+**Prompt:** what are the top 5 products based on no of orders ?
 
-First_Name,Last_Name,Age
-Chelsy,Saintsbury,29.0
-Ulrich,Clendening,25.0
+Product_Id,Product_Name,Product_Category,Price,Product_Description,No_Of_Orders
+9362-5680-7737,Notebook Dividers,Material,300.00,"Notebook Dividers - Set of 5, multi-color tabs.",3
+2001-6158-8095,Notebook Cover,Material,280.00,"Notebook Cover - Leather, fits A5 size.",2
+6625-3598-4287,Staple Remover,Material,230.00,Staple Remover - Ergonomic design.,2
+8189-0359-9755,Whiteboard Marker,Material,170.00,"Whiteboard Marker - Black, fine tip.",2
+0243-4435-6832,Mechanical Pencil,Material,140.00,Mechanical Pencil - 0.7mm lead.,1

@@ -6,7 +6,7 @@ import pandas as pd
 from copilot import *
 
 # Replace with your OpenAI API key
-api_key = "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"
+api_key = "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"
 llm = OpenAI(temperature=0, openai_api_key=api_key)
 
 def combine_prompt_data(prompt, data):
@@ -36,7 +36,6 @@ def process_with_llm(file_path):
     summary = a.generations[0][0].text
     # st.write(summary)
     return summary
-
 
 # Example usage
 # user_prompt = "Give me products which are ordered more than once"
