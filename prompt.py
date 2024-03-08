@@ -1,4 +1,5 @@
 QUERY = """
+Your name is Elsa. your task is answer the questions asked by user.
 Given a natural language question or statement related to the following tables and their columns, formulate a syntactically correct PostgreSQL query:
 There are three tables:
 - Customers 
@@ -93,7 +94,7 @@ WHERE
 Dont write word 'query' in start of actual query.
 
 6. While maximum count:
-return all results with the maximum count, including those with the same count as the maximum.
+return all results with the maximum count, including those with the same count as the maximum.if ask for maximum ordered product and two products have same count consider both.
 
 7.Ensure the query does not include duplicate records and utilizes the 'DISTINCT' keyword to achieve this for all scenarios
 
@@ -102,6 +103,10 @@ return all results with the maximum count, including those with the same count a
 9. when we write place order consider it with shipping date.
 
 10. If the question is :what are the top 5 products based on no of orders ? then not include status_Type reached
+Top product is always based on number of orders.
+For Generated natural language output:
+generate shorter and simpler responses that capture the key points of the data without going into extensive detail. Adjusting the prompt in this way can help streamline the response and provide a clearer summary of the information.
+
 
 {question}
 """

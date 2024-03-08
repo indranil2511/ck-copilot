@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 # Your OpenAI API key
 API_KEY = api_key = os.environ['API_KEY']
  
-llm = OpenAI(temperature=0, openai_api_key=API_KEY)
+llm = OpenAI(temperature=0, openai_api_key=API_KEY, max_tokens=200)
 query_arr = []
 
 load_dotenv()
@@ -56,9 +56,17 @@ def get_prompt():
 
 def on_chat_submit(chat_input):
     if chat_input:
+        sql_query=None
         try:
-            st.session_state.conversation_history.append({"role": "user", "content": chat_input})
-            sql_query = get_sql_query(QUERY.format(question=chat_input))
+            if chat_input.lower() == "hi elsa":
+                response = "I am Elsa, a bot designed to help with managing tasks related to product shipment. How can I assist you?"
+                st.session_state.history.append({"role": "user", "content": chat_input})
+                st.session_state.history.append({"role": "assistant", "content": response})
+            else:
+                st.session_state.conversation_history.append({"role": "user", "content": chat_input})
+                sql_query = get_sql_query(QUERY.format(question=chat_input))
+                # print(sql_query)
+                
             if sql_query:
                 if os.environ['DEBUG'] == True:
                     st.success("Generated SQL query:")
@@ -67,13 +75,16 @@ def on_chat_submit(chat_input):
                 try:
                     output = execute_real_sql_query(sql_query)
                     
+                    print(output)
                     if output is not None:
                         #   st.write("Query Results:")
                         print(os.environ['DEBUG'])
                         if os.environ['DEBUG'] == True:
                             st.dataframe(output)  # Display results as a DataFrame
+                        
                         natural_prompt = combine_prompt_data(chat_input, output)
                         llm_output = process_with_llm(natural_prompt)
+                        
                         # Append assistant's reply to the conversation history
                         st.session_state.conversation_history.append({"role": "assistant", "content": llm_output})
                         #st.chat_message(llm_output)
@@ -87,7 +98,9 @@ def on_chat_submit(chat_input):
                 except Exception as e:
                     st.error(f"An error occurred while executing the query: {e}")
             else:
-                st.write("Failed to generate SQL query.")
+                st.write(" ")
+                # st.write("I am Elsa, a bot designed to help with managing tasks related to product shipment. I am not programmed to answer such questions or provide information on this. How can I assist you?")
+                # st.write("Failed to generate SQL query.")
 
         except Exception as e:
             st.error(f"An error occurred: {e}")

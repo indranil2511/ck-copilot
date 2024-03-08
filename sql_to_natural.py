@@ -24,10 +24,11 @@ def combine_prompt_data(prompt, data):
 def process_with_llm(natural_prompt):
 
     # Craft a comprehensive prompt
-    llm_prompt = f"I have been given a question and a dataframe which is answer of the asked question: \n {natural_prompt} \n  Please provide a concise summary of the key insights or trends in the data in natural language."
+    llm_prompt = f"I have been given a question and a dataframe which is answer of the asked question: \n {natural_prompt} \n  Please provide a concise summary of the key insights or trends in the data in natural language. concise the answer with less words as less you can do"
+    # llm_prompt = f"Please provide a brief summary highlighting the main trends or insights in the data, focusing on the top-selling products and customer preferences.\n\n{natural_prompt}"
 
     # st.write(combined_content)
-    a=llm.generate([llm_prompt])
+    a=llm.generate([llm_prompt],max_tokens=60,temperature=1)
     # print(a)
     # Extract the generated text from the response
     summary = a.generations[0][0].text
