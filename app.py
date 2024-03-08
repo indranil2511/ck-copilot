@@ -122,7 +122,25 @@ def run():
     if 'conversation_history' not in st.session_state:
         st.session_state.conversation_history = []
     
+#     def handle_user_input(user_input):
+#         if user_input.lower() == "hi elsa":
+#             response = "I'm sorry, I am an AI and I am not programmed to answer questions or provide information on illegal or harmful activities. Is there something else I can assist you with?"
+#         else:
+#             # Placeholder logic for other user inputs
+#             response = "Placeholder response for other user inputs"
+#         st.session_state.history.append({"role": "user", "content": user_input})
+#         st.session_state.history.append({"role": "assistant", "content": response})
+
+# # Render the conversation history
+#     for message in st.session_state.history:
+#         with st.expander(message["role"]):
+#             st.write(message["content"])
     
+#     user_input = st.text_input("You:", "")
+
+# # Handle user input
+#     if user_input:
+#         handle_user_input(user_input)
 
     get_prompt()
     # st.chat_input("Ask me about Streamlit updates:")
