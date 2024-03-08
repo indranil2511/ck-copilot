@@ -36,16 +36,15 @@ def get_prompt():
             unsafe_allow_html=True,
         )
     on_chat_submit(prompt)
-    print(st.session_state.history)
     # Display chat history with custom avatars
     for message in st.session_state.history[-20:]:
         role = message["role"]
         
         # Set avatar based on role
         if role == "assistant":
-            avatar_image = "images/avatar_assistant.png"
+            avatar_image = "images/Screenshot 2024-03-08 at 1.51.15 PM.png"
         elif role == "user":
-            avatar_image = "images/avatar_user.png"
+            avatar_image = "images/user-account-management-logo-user-icon-11562867145a56rus2zwu.png"
         else:
             avatar_image = None  # Default
         
