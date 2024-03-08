@@ -28,13 +28,13 @@ def get_prompt():
     # prompt = st.chat_input("Ask me...")
     
     prompt = st.chat_input("What do you wanna know?")
-    query_arr.append(prompt)
-    for row in query_arr:
-        print(row)
-        st.sidebar.write(
-            f'<span class="chat-items">{row}</span>',
-            unsafe_allow_html=True,
-        )
+    # query_arr.append(prompt)
+    # for row in query_arr:
+    #     print(row)
+    #     st.sidebar.write(
+    #         f'<span class="chat-items">{row}</span>',
+    #         unsafe_allow_html=True,
+    #     )
     on_chat_submit(prompt)
     # Display chat history with custom avatars
     for message in st.session_state.history[-20:]:
@@ -58,6 +58,7 @@ def on_chat_submit(chat_input):
         try:
             st.session_state.conversation_history.append({"role": "user", "content": chat_input})
             sql_query = get_sql_query(QUERY.format(question=chat_input))
+            print(sql_query)
             if sql_query:
                 if os.environ['DEBUG'] == True:
                     st.success("Generated SQL query:")

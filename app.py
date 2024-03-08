@@ -76,6 +76,13 @@ def run():
             margin-right: auto;
             width: 50%;
         }
+        .footer{
+            position: fixed;
+            bottom: 25px;
+            width: 15%;
+            font-size: 11px;
+            color: #97979d;
+        }    
         </style>
         """,
         unsafe_allow_html=True,
@@ -100,14 +107,12 @@ def run():
         unsafe_allow_html=True,
     )
 
-    st.sidebar.markdown("---")
-
-    st.sidebar.markdown(
-        f'<span class="sidebar-text">Today</span>',
-        unsafe_allow_html=True,
-    )
-
     # st.title("# Hi, I'm Elsa! 👋")
+
+    st.sidebar.write(
+        f'<div class="footer">© 2023, CloudKaptan Consultancy Services Private Limited. All rights reserved.</div>',
+        unsafe_allow_html=True  
+    )
 
     initial_bot_message = "Hello! I'm Elsa. How can I assist you?\n"
 
