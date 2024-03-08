@@ -28,7 +28,7 @@ def process_with_llm(natural_prompt):
     # llm_prompt = f"Please provide a brief summary highlighting the main trends or insights in the data, focusing on the top-selling products and customer preferences.\n\n{natural_prompt}"
 
     # st.write(combined_content)
-    a=llm.generate([llm_prompt],max_tokens=60,temperature=1)
+    a=llm.generate([llm_prompt],max_tokens=100,temperature=0.5)
     # print(a)
     # Extract the generated text from the response
     summary = a.generations[0][0].text
