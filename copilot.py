@@ -6,12 +6,13 @@ from prompt import *
 import pandas as pd
 from sql_to_natural import *
 import os
+import re
 from dotenv import load_dotenv
 
 # Your OpenAI API key
 API_KEY = api_key = os.environ['API_KEY']
  
-llm = OpenAI(temperature=0, openai_api_key=API_KEY, max_tokens=200)
+llm = OpenAI(temperature=0, openai_api_key=API_KEY)
 query_arr = []
 
 load_dotenv()
@@ -64,7 +65,7 @@ def on_chat_submit(chat_input):
             else:
                 st.session_state.conversation_history.append({"role": "user", "content": chat_input})
                 sql_query = get_sql_query(QUERY.format(question=chat_input))
-                # print(sql_query)
+                print(sql_query)
                 
             if sql_query:
                 if os.environ['DEBUG'] == True:
@@ -72,28 +73,42 @@ def on_chat_submit(chat_input):
                     st.code(sql_query, language="sql")
 
                 try:
-                    output = execute_real_sql_query(sql_query)
-                    
-                    print(output)
-                    if output is not None:
-                        #   st.write("Query Results:")
-                        print(os.environ['DEBUG'])
-                        if os.environ['DEBUG'] == True:
-                            st.dataframe(output)  # Display results as a DataFrame
-                        
-                        natural_prompt = combine_prompt_data(chat_input, output)
-                        llm_output = process_with_llm(natural_prompt)
-                        
-                        # Append assistant's reply to the conversation history
-                        st.session_state.conversation_history.append({"role": "assistant", "content": llm_output})
-                        #st.chat_message(llm_output)
+                    """
+                    Check if the given string is an SQL query.
+                    """
+                    # Define a regular expression pattern to match common SQL query patterns
+                    sql_pattern = r"\b(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)\b"
 
-                        # Update the Streamlit chat history
-                        if "history" in st.session_state:
-                            st.session_state.history.append({"role": "user", "content": chat_input})
-                            st.session_state.history.append({"role": "assistant", "content": llm_output})
+                    # Use the search function to find matches
+                    match = re.search(sql_pattern, sql_query, re.IGNORECASE)
+
+                    if match:
+                        output = execute_real_sql_query(sql_query)
+                        # match = re.search(sql_pattern, sql_query, re.IGNORECASE)
+                        print(output)
+                        if output is not None:
+                            #   st.write("Query Results:")
+                            print(os.environ['DEBUG'])
+                            if os.environ['DEBUG'] == True:
+                                st.dataframe(output)  # Display results as a DataFrame
+                            
+                            natural_prompt = combine_prompt_data(chat_input, output)
+                            llm_output = process_with_llm(natural_prompt)
+                            
+                            # Append assistant's reply to the conversation history
+                            st.session_state.conversation_history.append({"role": "assistant", "content": llm_output})
+                            #st.chat_message(llm_output)
+
+                            # Update the Streamlit chat history
+                            if "history" in st.session_state:
+                                st.session_state.history.append({"role": "user", "content": chat_input})
+                                st.session_state.history.append({"role": "assistant", "content": llm_output})
+                        else:
+                            st.info("The query did not return any results.")
+                            st.write("unable to answer")
                     else:
-                        st.info("The query did not return any results.")
+                        st.write("I am Elsa, a bot designed to help with managing tasks related to product shipment. I am not programmed to answer such questions or provide information on this .How can I assist you?")
+
                 except Exception as e:
                     st.error(f"An error occurred while executing the query: {e}")
             else:
