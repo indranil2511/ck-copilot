@@ -4,10 +4,10 @@ import psycopg2
 
 
 REAL_DB_USER = "postgres"
-REAL_DB_PASSWORD = "rony170891"
+REAL_DB_PASSWORD = "test"
 REAL_DB_HOST = "localhost"
 REAL_DB_NAME = "postgres"
-REAL_DB_PORT = "5432"
+REAL_DB_PORT = "5431"
 
 
 

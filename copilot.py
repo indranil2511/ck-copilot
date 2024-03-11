@@ -55,6 +55,13 @@ def get_prompt():
 
 
 def on_chat_submit(chat_input):
+    """
+    Function to handle user input and generate responses.
+    """
+    # if not chat_input:
+    #     st.warning("Please enter a valid input.")
+    #     st.stop()
+    
     if chat_input:
         sql_query=None
         try:
@@ -68,6 +75,7 @@ def on_chat_submit(chat_input):
                 print(sql_query)
                 
             if sql_query:
+                MAX_RESULTS = 100
                 if os.environ['DEBUG'] == True:
                     st.success("Generated SQL query:")
                     st.code(sql_query, language="sql")
@@ -78,7 +86,6 @@ def on_chat_submit(chat_input):
                     """
                     # Define a regular expression pattern to match common SQL query patterns
                     sql_pattern = r"\b(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)\b"
-
                     # Use the search function to find matches
                     match = re.search(sql_pattern, sql_query, re.IGNORECASE)
 
