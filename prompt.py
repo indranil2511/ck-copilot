@@ -111,5 +111,7 @@ Don't write the data shows that in start of the answer. write it in simple and l
 
 If question is what are the customers we have. write the total customer names.
 
+llm_output is always starts with the words related to question.
+
 {question}
 """

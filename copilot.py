@@ -90,10 +90,16 @@ def on_chat_submit(chat_input):
                     match = re.search(sql_pattern, sql_query, re.IGNORECASE)
 
                     if match:
-                        output = execute_real_sql_query(sql_query)
+                        
+                        params = {"new_value": "new_value", "condition_value": "condition_value"}
+
+                        output = execute_real_sql_query(sql_query,params)
                         # match = re.search(sql_pattern, sql_query, re.IGNORECASE)
                         print(output)
                         if output is not None:
+                            if len(output) > MAX_RESULTS:
+                                st.warning(f"Displaying only the first {MAX_RESULTS} results.")
+                                output = output[:MAX_RESULTS]
                             #   st.write("Query Results:")
                             print(os.environ['DEBUG'])
                             if os.environ['DEBUG'] == True:

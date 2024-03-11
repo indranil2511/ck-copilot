@@ -10,7 +10,7 @@ from copilot import *
 load_dotenv()
 # Replace with your OpenAI API key
 api_key = os.environ['API_KEY']
-llm = OpenAI(temperature=0.5, openai_api_key=api_key)
+llm = OpenAI(temperature=0, openai_api_key=api_key)
 
 def combine_prompt_data(prompt, data):
     df = pd.DataFrame(data)
