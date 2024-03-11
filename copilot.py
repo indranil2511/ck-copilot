@@ -107,7 +107,9 @@ def on_chat_submit(chat_input):
                             st.info("The query did not return any results.")
                             st.write("unable to answer")
                     else:
-                        st.write("I am Elsa, a bot designed to help with managing tasks related to product shipment. I am not programmed to answer such questions or provide information on this .How can I assist you?")
+                        if "history" in st.session_state:
+                            st.session_state.history.append({"role": "user", "content": chat_input})
+                            st.session_state.history.append({"role": "assistant", "content": sql_query})
 
                 except Exception as e:
                     st.error(f"An error occurred while executing the query: {e}")
