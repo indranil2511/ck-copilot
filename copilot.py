@@ -6,6 +6,7 @@ from prompt import *
 import pandas as pd
 from sql_to_natural import *
 import os
+import re
 from dotenv import load_dotenv
 
 # Your OpenAI API key
@@ -80,36 +81,43 @@ def on_chat_submit(chat_input):
                     st.code(sql_query, language="sql")
 
                 try:
-                    output = execute_real_sql_query(sql_query)
-                    
-                    print(output)
-                    if output is not None:
-                        #   st.write("Query Results:")
-                        if len(output) > MAX_RESULTS:
-                            st.warning(f"Displaying only the first {MAX_RESULTS} results.")
-                            output = output[:MAX_RESULTS]
+                    """
+                    Check if the given string is an SQL query.
+                    """
+                    # Define a regular expression pattern to match common SQL query patterns
+                    sql_pattern = r"\b(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)\b"
+                    # Use the search function to find matches
+                    match = re.search(sql_pattern, sql_query, re.IGNORECASE)
 
-                        print(os.environ['DEBUG'])
-                        if os.environ['DEBUG'] == True:
-                            st.dataframe(output)  # Display results as a DataFrame
-                        
-                        natural_prompt = combine_prompt_data(chat_input, output)
-                        llm_output = process_with_llm(natural_prompt)
-                        llm_output = llm_output.replace("The data reveals that", "")
-                        llm_output = llm_output.replace("The data suggests that", "")
-                        llm_output = llm_output.replace("The data shows that", "")
-                        llm_output = llm_output.replace("The data indicates that", "")
+                    if match:
+                        output = execute_real_sql_query(sql_query)
+                        # match = re.search(sql_pattern, sql_query, re.IGNORECASE)
+                        print(output)
+                        if output is not None:
+                            #   st.write("Query Results:")
+                            print(os.environ['DEBUG'])
+                            if os.environ['DEBUG'] == True:
+                                st.dataframe(output)  # Display results as a DataFrame
+                            
+                            natural_prompt = combine_prompt_data(chat_input, output)
+                            llm_output = process_with_llm(natural_prompt)
+                            
+                            # Append assistant's reply to the conversation history
+                            st.session_state.conversation_history.append({"role": "assistant", "content": llm_output})
+                            #st.chat_message(llm_output)
 
-                        # Append assistant's reply to the conversation history
-                        st.session_state.conversation_history.append({"role": "assistant", "content": llm_output})
-                        #st.chat_message(llm_output)
-
-                        # Update the Streamlit chat history
+                            # Update the Streamlit chat history
+                            if "history" in st.session_state:
+                                st.session_state.history.append({"role": "user", "content": chat_input})
+                                st.session_state.history.append({"role": "assistant", "content": llm_output})
+                        else:
+                            st.info("The query did not return any results.")
+                            st.write("unable to answer")
+                    else:
                         if "history" in st.session_state:
                             st.session_state.history.append({"role": "user", "content": chat_input})
-                            st.session_state.history.append({"role": "assistant", "content": llm_output})
-                    else:
-                        st.info("The query did not return any results.")
+                            st.session_state.history.append({"role": "assistant", "content": sql_query})
+
                 except Exception as e:
                     st.error(f"An error occurred while executing the query: {e}")
             else:
