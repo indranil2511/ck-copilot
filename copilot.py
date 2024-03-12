@@ -68,10 +68,6 @@ def on_chat_submit(chat_input,session_id):
     """
     Function to handle user input and generate responses.
     """
-    # if not chat_input:
-    #     st.warning("Please enter a valid input.")
-    #     st.stop()
-    
     if chat_input:
         sql_query=None
         try:
@@ -87,7 +83,7 @@ def on_chat_submit(chat_input,session_id):
                 
             if sql_query:
                 MAX_RESULTS = 100
-                if os.environ['DEBUG'] == True:
+                if os.environ['DEBUG'] == 'True':
                     st.success("Generated SQL query:")
                     st.code(sql_query, language="sql")
 
@@ -112,26 +108,15 @@ def on_chat_submit(chat_input,session_id):
                                 st.warning(f"Displaying only the first {MAX_RESULTS} results.")
                                 output = output[:MAX_RESULTS]
                             #   st.write("Query Results:")
-                            print(os.environ['DEBUG'])
-                            if os.environ['DEBUG'] == True:
+                            if os.environ['DEBUG'] == 'True':
                                 st.dataframe(output)  # Display results as a DataFrame
                             
                             natural_prompt = combine_prompt_data(chat_input, output)
                             llm_output = process_with_llm(natural_prompt)
-                            # print("llm..",llm_output)
-                            cursor.execute("INSERT INTO chat_history(session_id,question,answer) VALUES (%s, %s,%s )", (session_id,chat_input, llm_output))
-                            connection.commit()
+                            update_chat_history(session_id, chat_input, llm_output) 
 
-                            select_query = "SELECT * FROM chat_history"
-                            cursor.execute(select_query)
-                            records = cursor.fetchall()
-
-                            # Print the fetched records
-                            for record in records:
-                                print("abc",record)
                             # Append assistant's reply to the conversation history
                             st.session_state.conversation_history.append({"role": "assistant", "content": llm_output,"session_id":session_id})
-                            #st.chat_message(llm_output)
 
                             # Update the Streamlit chat history
                             if "history" in st.session_state:
@@ -160,5 +145,3 @@ def on_chat_submit(chat_input,session_id):
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
-
-# connection.close()

@@ -1,3 +1,4 @@
+from query_utils import get_chat_history
 import streamlit as st
 from streamlit.logger import get_logger
 import base64
@@ -8,6 +9,8 @@ def load():
         layout="wide",
         initial_sidebar_state="expanded"
     )
+
+    result = get_chat_history('h328ed82')
 
     # Inject custom CSS for glowing border effect
     st.markdown(
@@ -20,8 +23,6 @@ def load():
         }
         .sidebar-text{
             color: #112d4e;
-            position: fixed;
-            bottom: 83px;
             width: 20%;
         }
         .chat-items {
@@ -66,11 +67,7 @@ def load():
             width: 20%;
             font-size: 11px;
             color: #97979d;
-        } 
-        .eczjsme4{
-            position: fixed;
-            top: 1px;
-        }   
+        }    
         .eczjsme10{
             position: relative;
             top: 85px;
@@ -96,11 +93,23 @@ def load():
         unsafe_allow_html=True,
     )
 
+    
+
     # st.sidebar.markdown("# Sidebar Description")
     st.sidebar.markdown(
         f'<span class="sidebar-text"> Your go-to task management copilot, simplifying data querying and providing answers in plain language. Stay organized, collaborate effortlessly, and boost productivity with Elsa by your side. Say hello to seamless task management!</span>',
         unsafe_allow_html=True,
     )
+    st.sidebar.markdown("---")
+
+    st.sidebar.markdown("Today")
+    for chat in result:
+        chat = str(chat)
+        chat = chat.replace("(","")
+        chat = chat.replace(")",'')
+        chat = chat.replace("'",'')
+        chat = chat.replace(",",'')
+        st.sidebar.markdown(chat)
 
     # st.title("# Hi, I'm Elsa! 👋")
 
