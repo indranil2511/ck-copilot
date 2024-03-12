@@ -10,6 +10,7 @@ import re
 from dotenv import load_dotenv
 
 # Your OpenAI API key
+
 API_KEY = api_key = os.environ['API_KEY']
  
 llm = OpenAI(temperature=0, openai_api_key=API_KEY)
@@ -65,6 +66,7 @@ def on_chat_submit(chat_input):
     if chat_input:
         sql_query=None
         try:
+            
             if chat_input.lower() == "hi elsa":
                 response = "I am Elsa, a bot designed to help with managing tasks related to product shipment. How can I assist you?"
                 st.session_state.history.append({"role": "user", "content": chat_input})
@@ -91,9 +93,9 @@ def on_chat_submit(chat_input):
 
                     if match:
                         
-                        params = {"new_value": "new_value", "condition_value": "condition_value"}
+                        # params = {"new_value": "new_value", "condition_value": "condition_value"}
 
-                        output = execute_real_sql_query(sql_query,params)
+                        output = execute_real_sql_query(sql_query)
                         # match = re.search(sql_pattern, sql_query, re.IGNORECASE)
                         print(output)
                         if output is not None:
@@ -107,7 +109,17 @@ def on_chat_submit(chat_input):
                             
                             natural_prompt = combine_prompt_data(chat_input, output)
                             llm_output = process_with_llm(natural_prompt)
-                            
+                            # print("llm..",llm_output)
+                            cursor.execute("INSERT INTO chat_history(question,answer) VALUES (%s, %s)", (chat_input, llm_output))
+                            connection.commit()
+
+                            # select_query = "SELECT * FROM chat_history"
+                            # cursor.execute(select_query)
+                            # records = cursor.fetchall()
+
+                            # # Print the fetched records
+                            # for record in records:
+                            #     print("abc",record)
                             # Append assistant's reply to the conversation history
                             st.session_state.conversation_history.append({"role": "assistant", "content": llm_output})
                             #st.chat_message(llm_output)
@@ -117,8 +129,14 @@ def on_chat_submit(chat_input):
                                 st.session_state.history.append({"role": "user", "content": chat_input})
                                 st.session_state.history.append({"role": "assistant", "content": llm_output})
                         else:
-                            st.info("The query did not return any results.")
-                            st.write("unable to answer")
+                            if sql_query.strip().upper().startswith("UPDATE"):
+                                st.success("Updating table is not allowed!")
+                            elif sql_query.strip().upper().startswith("INSERT"):
+                                st.success("Data insertion is not allowed!")
+                            elif sql_query.strip().upper().startswith("DELETE"):
+                                st.success("You cannot delete data!")
+                            else:
+                                st.info("The query did not return any results.")
                     else:
                         if "history" in st.session_state:
                             st.session_state.history.append({"role": "user", "content": chat_input})
@@ -134,3 +152,4 @@ def on_chat_submit(chat_input):
         except Exception as e:
             st.error(f"An error occurred: {e}")
 
+# connection.close()

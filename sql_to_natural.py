@@ -24,7 +24,7 @@ def combine_prompt_data(prompt, data):
 def process_with_llm(natural_prompt):
 
     # Craft a comprehensive prompt
-    llm_prompt = f"Based on the provided question and data: \n {natural_prompt} \n  Please provide a concise summary of the key insights or trends in the data in natural language. concise the answer with less words as less you can do. Don't start the answer with The data shows that.write in simple words ."
+    llm_prompt = f"Based on the provided question and data: \n {natural_prompt} \n  Please provide a concise summary of the key insights or trends in the data in natural language. concise the answer with less words as less you can do.write in simple words ."
     # llm_prompt = f"Please provide a brief summary highlighting the main trends or insights in the data, focusing on the top-selling products and customer preferences.\n\n{natural_prompt}"
 
     # st.write(combined_content)
