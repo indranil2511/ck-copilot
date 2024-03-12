@@ -8,7 +8,7 @@ from sql_to_natural import *
 import os
 import re
 from dotenv import load_dotenv
-
+import random
 # Your OpenAI API key
 
 API_KEY = api_key = os.environ['API_KEY']
@@ -28,7 +28,7 @@ def get_sql_query(prompt):
 def get_prompt():
     # st.title('Data Extractor Copilot CK')
     # prompt = st.chat_input("Ask me...")
-    
+    session_id = random.random()
     prompt = st.chat_input("What do you wanna know?")
     # query_arr.append(prompt)
     # for row in query_arr:
@@ -37,7 +37,7 @@ def get_prompt():
     #         f'<span class="chat-items">{row}</span>',
     #         unsafe_allow_html=True,
     #     )
-    on_chat_submit(prompt)
+    on_chat_submit(prompt,session_id)
     # Display chat history with custom avatars
     for message in st.session_state.history[-20:]:
         role = message["role"]
@@ -55,7 +55,7 @@ def get_prompt():
     
 
 
-def on_chat_submit(chat_input):
+def on_chat_submit(chat_input,session_id):
     """
     Function to handle user input and generate responses.
     """
@@ -69,10 +69,10 @@ def on_chat_submit(chat_input):
             
             if chat_input.lower() == "hi elsa":
                 response = "I am Elsa, a bot designed to help with managing tasks related to product shipment. How can I assist you?"
-                st.session_state.history.append({"role": "user", "content": chat_input})
-                st.session_state.history.append({"role": "assistant", "content": response})
+                st.session_state.history.append({"role": "user", "content": chat_input,"session_id":session_id})
+                st.session_state.history.append({"role": "assistant", "content": response,"session_id":session_id})
             else:
-                st.session_state.conversation_history.append({"role": "user", "content": chat_input})
+                st.session_state.conversation_history.append({"role": "user", "content": chat_input,"session_id":session_id})
                 sql_query = get_sql_query(QUERY.format(question=chat_input))
                 print(sql_query)
                 
@@ -110,37 +110,37 @@ def on_chat_submit(chat_input):
                             natural_prompt = combine_prompt_data(chat_input, output)
                             llm_output = process_with_llm(natural_prompt)
                             # print("llm..",llm_output)
-                            cursor.execute("INSERT INTO chat_history(question,answer) VALUES (%s, %s)", (chat_input, llm_output))
+                            cursor.execute("INSERT INTO chat_history(session_id,question,answer) VALUES (%s, %s,%s )", (session_id,chat_input, llm_output))
                             connection.commit()
 
-                            # select_query = "SELECT * FROM chat_history"
-                            # cursor.execute(select_query)
-                            # records = cursor.fetchall()
+                            select_query = "SELECT * FROM chat_history"
+                            cursor.execute(select_query)
+                            records = cursor.fetchall()
 
-                            # # Print the fetched records
-                            # for record in records:
-                            #     print("abc",record)
+                            # Print the fetched records
+                            for record in records:
+                                print("abc",record)
                             # Append assistant's reply to the conversation history
-                            st.session_state.conversation_history.append({"role": "assistant", "content": llm_output})
+                            st.session_state.conversation_history.append({"role": "assistant", "content": llm_output,"session_id":session_id})
                             #st.chat_message(llm_output)
 
                             # Update the Streamlit chat history
                             if "history" in st.session_state:
-                                st.session_state.history.append({"role": "user", "content": chat_input})
-                                st.session_state.history.append({"role": "assistant", "content": llm_output})
+                                st.session_state.history.append({"role": "user", "content": chat_input,"session_id":session_id})
+                                st.session_state.history.append({"role": "assistant", "content": llm_output,"session_id":session_id})
                         else:
                             if sql_query.strip().upper().startswith("UPDATE"):
-                                st.success("Updating table is not allowed!")
+                                st.warning("Updating table is not allowed!")
                             elif sql_query.strip().upper().startswith("INSERT"):
-                                st.success("Data insertion is not allowed!")
+                                st.warning("Data insertion is not allowed!")
                             elif sql_query.strip().upper().startswith("DELETE"):
-                                st.success("You cannot delete data!")
+                                st.warning("You cannot delete data!")
                             else:
                                 st.info("The query did not return any results.")
                     else:
                         if "history" in st.session_state:
-                            st.session_state.history.append({"role": "user", "content": chat_input})
-                            st.session_state.history.append({"role": "assistant", "content": sql_query})
+                            st.session_state.history.append({"role": "user", "content": chat_input,"session_id":session_id})
+                            st.session_state.history.append({"role": "assistant", "content": sql_query,"session_id":session_id})
 
                 except Exception as e:
                     st.error(f"An error occurred while executing the query: {e}")

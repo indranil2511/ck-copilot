@@ -60,8 +60,11 @@ cursor = connection.cursor()
 create_table_query = """
 CREATE TABLE IF NOT EXISTS chat_history (
     id SERIAL PRIMARY KEY,
+    session_id integer,
     question TEXT,
-    answer TEXT
+    answer TEXT,
+    timestamp TIMESTAMP WITH TIME ZONE[] DEFAULT CURRENT_TIMESTAMP
+
 );
 """
 cursor.execute(create_table_query)
