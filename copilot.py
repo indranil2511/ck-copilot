@@ -25,10 +25,19 @@ def get_sql_query(prompt):
     generations = llm.generate(prompt_list)
     return generations.generations[0][0].text
 
+def generate_session_id():
+    """
+    Generate a session ID that remains constant throughout the session.
+    """
+    if "session_id" not in st.session_state:
+        st.session_state.session_id = random.randint(100000, 999999)
+    return st.session_state.session_id
+
+
 def get_prompt():
     # st.title('Data Extractor Copilot CK')
     # prompt = st.chat_input("Ask me...")
-    session_id = random.random()
+    session_id = generate_session_id()
     prompt = st.chat_input("What do you wanna know?")
     # query_arr.append(prompt)
     # for row in query_arr:
