@@ -17,7 +17,7 @@ from streamlit.logger import get_logger
 import base64
 from copilot import get_prompt
 from layout import load
-
+import random
 LOGGER = get_logger(__name__)
 
 
@@ -26,7 +26,8 @@ def run():
     load()
 
     initial_bot_message = "Hello! I'm Elsa. How can I assist you?\n"
-
+    
+    
     if "history" not in st.session_state:
         st.session_state.history = []
         st.session_state.history.append({"role": "assistant", "content": initial_bot_message})

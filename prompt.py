@@ -107,6 +107,11 @@ Top product is always based on number of orders.
 For Generated natural language output:
 generate shorter and simpler responses that capture the key points of the data without going into extensive detail. Adjusting the prompt in this way can help streamline the response and provide a clearer summary of the information.
 
+Don't write the data shows that in start of the answer. write it in simple and less words.
+
+If question is what are the customers we have. write the total customer names.
+
+llm_output is always starts with the words related to question.
 
 {question}
 """
