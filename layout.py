@@ -22,7 +22,7 @@ def load():
             color: #112d4e;
             position: fixed;
             bottom: 83px;
-            width: 15%;
+            width: 20%;
         }
         .chat-items {
             color: #112d4e;
@@ -63,7 +63,7 @@ def load():
         .footer{
             position: fixed;
             bottom: 25px;
-            width: 15%;
+            width: 20%;
             font-size: 11px;
             color: #97979d;
         } 
