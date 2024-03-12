@@ -56,6 +56,8 @@ connection = psycopg2.connect(
 # Create a cursor object
 cursor = connection.cursor()
 
+
+
 # Create the conversation table if it doesn't exist
 create_table_query = """
 CREATE TABLE IF NOT EXISTS chat_history (
@@ -63,7 +65,7 @@ CREATE TABLE IF NOT EXISTS chat_history (
     session_id integer,
     question TEXT,
     answer TEXT,
-    timestamp TIMESTAMP WITH TIME ZONE[] DEFAULT CURRENT_TIMESTAMP
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 
 );
 """
