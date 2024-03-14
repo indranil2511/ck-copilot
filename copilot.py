@@ -82,7 +82,7 @@ def on_chat_submit(chat_input,session_id):
                 print(sql_query)
                 
             if sql_query:
-                MAX_RESULTS = 100
+                # MAX_RESULTS = 100
                 if os.environ['DEBUG'] == 'True':
                     st.success("Generated SQL query:")
                     st.code(sql_query, language="sql")
@@ -104,15 +104,11 @@ def on_chat_submit(chat_input,session_id):
                         # match = re.search(sql_pattern, sql_query, re.IGNORECASE)
                         print(output)
                         if output is not None:
-                            if len(output) > MAX_RESULTS:
-                                st.warning(f"Displaying only the first {MAX_RESULTS} results.")
-                                output = output[:MAX_RESULTS]
-                            #   st.write("Query Results:")
                             if os.environ['DEBUG'] == 'True':
                                 st.dataframe(output)  # Display results as a DataFrame
                             
-                            natural_prompt = combine_prompt_data(chat_input, output)
-                            llm_output = process_with_llm(natural_prompt)
+                            
+                            llm_output=process_with_llm(chat_input,output)
                             update_chat_history(session_id, chat_input, llm_output) 
 
                             # Append assistant's reply to the conversation history

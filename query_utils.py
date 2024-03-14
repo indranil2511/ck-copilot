@@ -8,16 +8,22 @@ from sqlalchemy.orm import sessionmaker
 # Create a base class for our ORM models
 Base = declarative_base()
 
-REAL_DB_USER = "postgres"
-REAL_DB_PASSWORD = "rony170891"
-REAL_DB_HOST = "localhost"
-REAL_DB_NAME = "postgres"
+REAL_DB_USER = "ueuocca0lgifk6"
+REAL_DB_PASSWORD = "pb30d343bd7c66ae728459036a59c29f07e335c178174477f65afec9a44945499"
+REAL_DB_HOST = "ceu9lmqblp8t3q.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com"
+REAL_DB_NAME = "d6a1qf193655v2"
 REAL_DB_PORT = "5432"
 
-
-
 # Create engines for both databases
+# real_engine=psycopg2.connect(
+#     dbname=REAL_DB_NAME,
+#     user=REAL_DB_USER,
+#     password=REAL_DB_PASSWORD,
+#     host=REAL_DB_HOST,
+#     port=REAL_DB_PORT
+# )
 real_engine = create_engine(
+    # f"postgres://ueuocca0lgifk6:pb30d343bd7c66ae728459036a59c29f07e335c178174477f65afec9a44945499@ceu9lmqblp8t3q.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d6a1qf193655v2"
     f"postgresql+psycopg2://{REAL_DB_USER}:{REAL_DB_PASSWORD}@{REAL_DB_HOST}:{REAL_DB_PORT}/{REAL_DB_NAME}"
 )
 # def execute_real_sql_query(sql_query):
@@ -26,6 +32,7 @@ real_engine = create_engine(
        
 #             result = connection.execute(text(sql_query))
 #             return result.fetchall()
+
 
 def execute_real_sql_query(sql_query):
  
@@ -81,6 +88,8 @@ def get_chat_history(user_id):
             
     except Exception as e:
         print(e)
+
+
     
 
 
